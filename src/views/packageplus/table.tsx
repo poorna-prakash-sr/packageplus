@@ -10,6 +10,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
+import Link from 'next/link';
 import React from 'react';
 
 type Props = {
@@ -29,6 +30,10 @@ const AnalysisTable = ({ responseData, fileData }: Props) => {
       return 'green.300';
     } else if (score > 80) {
       return 'green.200';
+    } else if (score > 40) {
+      return 'red.200';
+    } else if (score > 20) {
+      return 'red.300';
     }
     return 'grey.100';
   };
@@ -50,21 +55,22 @@ const AnalysisTable = ({ responseData, fileData }: Props) => {
         <Tbody>
           {responseData.map((data: any, index: number) => {
             return (
-              <Tr bg={fixcolortoTable(data.score.toFixed(0))}>
-                <Td>{data.name}</Td>
+              <Tr bg={fixcolortoTable(data?.score?.toFixed(0))} key={index}>
+                <Td>{data?.name}</Td>
                 <Td>{filedependenciesArray[index].version}</Td>
-                <Td>{data.version}</Td>
-                <Td>{data.license}</Td>
-                <Td>{data.dependenciesCount}</Td>
-                <Td>{data.score.toFixed(0)}</Td>
+                <Td>{data?.version}</Td>
+                <Td>{data?.license}</Td>
+                <Td>{data?.dependenciesCount}</Td>
+                <Td>{data?.score?.toFixed(0)}</Td>
                 <Td>
                   <Text>
-                    <a href={data.npm} target="_blank">
+                    <Link href={data?.npm} target="_blank">
                       npm
-                    </a>
-                    <a href={data.npm} target="_blank">
+                    </Link>{' '}
+                    {/* Add a space between the two links using a whitespace */}
+                    <Link href={data?.github} target="_blank">
                       github
-                    </a>
+                    </Link>
                   </Text>
                 </Td>
               </Tr>

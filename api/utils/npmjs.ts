@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import zlib from 'zlib';
 import { IResult } from '../types/custom/result';
+import logger from './logger';
 
 class Npm {
   private _datastore: any;
@@ -44,8 +45,8 @@ class Npm {
         size: await this._getPackageSize(packageName),
       };
       return result;
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      logger.error(['getpackageinfo'], err.message);
       return { error: 'No Pacakges Found' };
     }
   }

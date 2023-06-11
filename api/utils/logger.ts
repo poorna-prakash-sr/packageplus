@@ -6,8 +6,6 @@ const logger: Ilogger = {
     pino().info(JSON.stringify(message));
   },
   error: (...message: any) => {
-    console.log(message);
-
     pino().error(JSON.stringify(message));
   },
 };
