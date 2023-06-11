@@ -5,7 +5,8 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import UploadFile from './upload';
 import AnalysisTable from './table';
 import axios, { AxiosResponse, CancelTokenSource } from 'axios';
-import { Button, Center, Skeleton } from '@chakra-ui/react';
+import { Button, Center, Progress, Skeleton } from '@chakra-ui/react';
+import { CloseIcon } from '@chakra-ui/icons';
 
 type Props = {};
 
@@ -59,20 +60,10 @@ const HomePage = () => {
         console.log('Error reading file:', error);
       }
     } else {
-      // Display an error message or handle invalid file type
       console.log('Invalid file format. Please select a JSON file.');
     }
     setLoading(false);
   };
-
-  useEffect(() => {
-    console.log(controller);
-    if (clearAll) {
-      return () => {
-        controller.abort();
-      };
-    }
-  }, [clearAll]);
 
   const onClearAll = () => {
     setClearAll(true);
@@ -84,6 +75,7 @@ const HomePage = () => {
   return (
     <>
       <Navbar />
+      {loading && <Progress size="xs" isIndeterminate />}
       {getDatafromtheResponse === null ? (
         <Hero>
           <UploadFile
@@ -93,23 +85,21 @@ const HomePage = () => {
         </Hero>
       ) : (
         <>
+          <Button
+            alignItems={'center'}
+            type="button"
+            size="sm"
+            m="5"
+            rightIcon={<CloseIcon />}
+            onClick={onClearAll}
+            hidden={selectedFile !== null ? false : true}
+          >
+            Clear All
+          </Button>
           <AnalysisTable
             responseData={getDatafromtheResponse}
             fileData={getDatafromthefile}
           />
-          {
-            <Center m={3}>
-              <Button
-                alignItems={'center'}
-                type="button"
-                size="sm"
-                onClick={onClearAll}
-                hidden={selectedFile !== null ? false : true}
-              >
-                Clear All
-              </Button>
-            </Center>
-          }
         </>
       )}
       <Footer />

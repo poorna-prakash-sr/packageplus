@@ -20,13 +20,13 @@ type Props = {
 export default function Hero({ children }: Props) {
   return (
     <>
+      {/* eslint-disable */}
       <Head>
         <link
           href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap"
           rel="stylesheet"
         />
       </Head>
-
       <Container maxW={'3xl'}>
         <Stack
           as={Box}
@@ -64,9 +64,9 @@ export default function Hero({ children }: Props) {
             position={'relative'}
           >
             {children}
-            <Button variant={'link'} colorScheme={'blue'} size={'sm'}>
+            {/* <Button variant={'link'} colorScheme={'blue'} size={'sm'}>
               Learn more
-            </Button>
+            </Button> */}
             <Box>
               <Icon
                 as={Arrow}
