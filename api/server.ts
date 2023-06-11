@@ -2,7 +2,19 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
+import dotenv from 'dotenv';
+import morgan from 'morgan';
 import routes from './routes';
+import logger from './utils/logger';
+
+/*
+    To configure environment variables for the application
+*/
+const envload = dotenv.config({ path: `${__dirname}/../.env` });
+
+if (envload.error) {
+  logger.error('Unable to load environment variables');
+}
 
 /*
   Defining the express app below
@@ -18,6 +30,8 @@ const corsOptions: any = {
 };
 
 app.use(cors(corsOptions));
+
+app.use(morgan('tiny'));
 
 /*
   To parse the chunks for the incoming request

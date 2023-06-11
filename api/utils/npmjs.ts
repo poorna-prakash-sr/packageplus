@@ -20,9 +20,13 @@ class Npm {
       const url: string = `https://registry.npmjs.com/-/v1/search?text=${packageName}&size=${size}`;
       // npms api url to get package details
       const apirul: string = `https://api.npms.io/v2/package/${packageName}`;
-      //destructure the response object to get the valid data response
-      const { data }: AxiosResponse = await axios.get(url);
-      const apidata: AxiosResponse = await axios.get(apirul);
+      const [urldata, apidata] = await Promise.all([
+        axios.get(url),
+        axios.get(apirul),
+      ]);
+
+      const data = urldata.data;
+
       this._datastore = apidata.data;
       const selected = data.objects[0];
       const result: IResult = {
@@ -39,9 +43,9 @@ class Npm {
         license: await this._getLincenseinfo(),
         size: await this._getPackageSize(packageName),
       };
-
-      return { result };
+      return result;
     } catch (err) {
+      console.log(err);
       return { error: 'No Pacakges Found' };
     }
   }
@@ -106,10 +110,14 @@ class Npm {
   };
 
   _getdependenciesCount = async (): Promise<number> => {
-    const totalCount = Object.keys(
-      this._datastore.collected.metadata.dependencies
-    ).length;
-    return totalCount;
+    if (this._datastore.collected.metadata.dependencies !== undefined) {
+      const totalCount = Object.keys(
+        this._datastore.collected.metadata.dependencies
+      ).length;
+
+      return totalCount;
+    }
+    return 0;
   };
 }
 

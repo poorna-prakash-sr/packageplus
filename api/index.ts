@@ -1,5 +1,8 @@
 import server from './server';
+import logger from './utils/logger';
 
-server.listen(3000, () => {
-  console.log('Server is listening on port 3000');
+const port = process.env.API_PORT || 3001;
+
+server.listen(port, () => {
+  logger.info(`Server started on port ${port}`);
 });
