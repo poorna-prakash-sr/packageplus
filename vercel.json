@@ -1,15 +1,19 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "./api/index.ts",
-      "use": "@now/node"
-    }
-  ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "./api"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/api"
+      "dest": "./next.config.js"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "./next.config.js"
     }
   ]
 }
