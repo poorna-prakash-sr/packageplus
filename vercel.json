@@ -3,17 +3,30 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "./api"
+      "dest": "api/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "./next.config.js"
+      "dest": "/$1"
     }
   ],
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "./next.config.js"
+      "destination": "/$1"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "builds": [
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "next.config.js",
+      "use": "@vercel/next"
     }
   ]
 }
