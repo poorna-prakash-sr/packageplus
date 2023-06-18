@@ -25,7 +25,7 @@ const app = express();
   To enable cors configuration 
 */
 const corsOptions: any = {
-  origin: '*',
+  origin: process.env.API_ORIGIN ? process.env.API_ORIGIN : '*',
   optionSuccessStatus: 200,
 };
 
